@@ -1,11 +1,10 @@
 #pragma once
-#include "ISingleton.h"
 
 /*
 * ΩÃ±€≈Ê ∆–≈œ
 */
 template<class T>
-class DsSingleton_SharedPtr : public ISingleton
+class DsSingleton_SharedPtr
 {
 public:
 	typedef TSharedPtr<T> SharedSingleton;
@@ -13,8 +12,8 @@ public:
 
 
 protected:	
-	DsSingleton_SharedPtr() {}
 	virtual ~DsSingleton_SharedPtr() {}
+	virtual void OnNew() = 0;
 
 
 private:	

@@ -18,5 +18,5 @@ void DsLogMgr::OnInit()
 
 void DsLogMgr::OnClassMessage(const FDsClassMsg_Log& rLog)
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *rLog.m_Log);
 }
