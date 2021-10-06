@@ -12,6 +12,7 @@ public:
 
 
 protected:	
+	DsSingleton_SharedPtr() {}
 	virtual ~DsSingleton_SharedPtr() {}
 	virtual void OnNew() = 0;
 

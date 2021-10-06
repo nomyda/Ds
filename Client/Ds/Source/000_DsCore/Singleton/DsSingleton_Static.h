@@ -12,6 +12,7 @@ public:
 
 
 protected:	
+	DsSingleton_Static() {}
 	virtual ~DsSingleton_Static() {}
 
 

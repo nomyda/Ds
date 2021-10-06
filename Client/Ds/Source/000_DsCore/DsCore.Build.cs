@@ -10,7 +10,7 @@ public class DsCore : ModuleRules
 
         PublicIncludePaths.Add(ModuleDirectory);
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

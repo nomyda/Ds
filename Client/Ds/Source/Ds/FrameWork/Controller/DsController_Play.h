@@ -9,7 +9,7 @@ class ADSPawn_CameraTarget;
  *
  */ 
 UCLASS()
-class DS_API ADsPlayerController_Play : public APlayerController
+class ADsPlayerController_Play : public APlayerController
 {
 	GENERATED_BODY()
 public:

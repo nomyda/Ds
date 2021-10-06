@@ -1,82 +1,63 @@
 #pragma once
 
-template<class CtrlClass>
-CtrlClass& DsActor::Get_Or_AddCtrl()
+template<class ChildStruct>
+bool DsActor::HasChild() const
 {
-	const CtrlClass* pCtrl = GetCtrl<CtrlClass>();
-	if (pCtrl)
-		return const_cast<CtrlClass&>(*pCtrl);
+	const UScriptStruct* pTargetStruct = ChildStruct::StaticStruct();
+	return m_smapSharedChild.Contains(pTargetStruct);
+}
 
-	const UScriptStruct* pTargetStruct = CtrlClass::StaticStruct();
-	const UScriptStruct* pBaseStruct = FDsActorCtrl_Base::StaticStruct();
-	if (false == DsHelper_Struct::IsCastEnable(pBaseStruct, pTargetStruct))
-	{
-		FDsClassMsg_Log kLog(TEXT("false == IsCastEnable, Caller = %s"), *FString(__FUNCTION__));
-		kLog.Send();
-		static CtrlClass kErrorCtrl;
-		return kErrorCtrl;
-	}
+template<class ChildStruct, class... ArgTypes>
+ChildStruct& DsActor::AddChild(ArgTypes&&... args)
+{
+	if (HasChild<ChildStruct>())
+		return const_cast<ChildStruct&>(*GetChild<ChildStruct>());
 	
-	SharedCtrl spCtrl = SharedCtrl(new CtrlClass);
-	m_smapSharedCtrl.Add(pTargetStruct, spCtrl);
-	return static_cast<CtrlClass&>(*spCtrl.Get());
-
-}
-
-template<class CtrlClass>
-const CtrlClass* DsActor::GetCtrl()
-{
-	const UScriptStruct* pTargetStruct = CtrlClass::StaticStruct();
-	if (false == m_smapSharedCtrl.Contains(pTargetStruct))
-		return nullptr;
-
-	const UScriptStruct* pBaseStruct = FDsActorCtrl_Base::StaticStruct();
-	SharedCtrl& CurCtrl = m_smapSharedCtrl[pTargetStruct];
-	if (nullptr == pBaseStruct || false == CurCtrl.IsValid())
-		return false;
-
-	if (false == DsHelper_Struct::IsCastEnable(pBaseStruct, pTargetStruct))
-		return false;
-
-	return static_cast<CtrlClass*>(CurCtrl.Get());
-}
-
-template<class InfoClass>
-InfoClass& DsActor::Get_Or_AddInfo()
-{
-	const InfoClass* pInfo = GetInfo<InfoClass>();
-	if (pInfo)
-		return const_cast<InfoClass&>(*pInfo);
-
-	const UScriptStruct* pTargetStruct = InfoClass::StaticStruct();
-	const UScriptStruct* pBaseStruct = FDsActorInfo_Base::StaticStruct();
-	if (false == DsHelper_Struct::IsCastEnable(pBaseStruct, pTargetStruct))
+	ChildStruct* pChild = new ChildStruct(Forward<ArgTypes>(args)...);
+	if (nullptr == pChild)
 	{
-		FDsClassMsg_Log kLog(TEXT("false == IsCastEnable"));
-		kLog.Send();
-		static InfoClass kErrorInfo;
-		return kErrorInfo;
+		DsLog(TEXT("actor"), ELogVerbosity::Warning, TEXT("false == new ChildStruct"));
 	}
 
-	SharedInfo spInfo = SharedInfo(new InfoClass);
-	m_smapSharedInfo.Add(pTargetStruct, spInfo);
-	return static_cast<InfoClass&>(*spInfo.Get());
+	SharedChild spChild = SharedChild(pChild);
+	const UScriptStruct* pTargetStruct = ChildStruct::StaticStruct();
+	m_smapSharedChild.Add(pTargetStruct, spChild);
+
+	const EActor_ChildStructType eType = GetChildStructType<ChildStruct>();
+	OnAddChild(eType, pChild);
+	return *pChild;
 }
 
-template<class InfoClass>
-const InfoClass* DsActor::GetInfo()
+template<class ChildStruct>
+ChildStruct& DsActor::Get_Or_AddChild()
 {
-	const UScriptStruct* pTargetStruct = InfoClass::StaticStruct();
-	if (false == m_smapSharedInfo.Contains(pTargetStruct))
-		return nullptr;
+	return AddChild<ChildStruct>();
+}
 
-	const UScriptStruct* pBaseStruct = FDsActorInfo_Base::StaticStruct();
-	SharedInfo& CurInfo = m_smapSharedInfo[pTargetStruct];
-	if (nullptr == pBaseStruct || false == CurInfo.IsValid())
-		return false;
+template<class ChildStruct>
+const ChildStruct* DsActor::GetChild()
+{
+	if (HasChild<ChildStruct>())
+	{
+		const UScriptStruct* pTargetStruct = ChildStruct::StaticStruct();
+		auto& rspChild = m_smapSharedChild[pTargetStruct];
+		return static_cast<const ChildStruct*>(rspChild.Get());
+	}
 
-	if (false == DsHelper_Struct::IsCastEnable(pBaseStruct, pTargetStruct))
-		return false;
+	return nullptr;
+}
 
-	return static_cast<InfoClass*>(CurInfo.Get());
+template<class ChildStruct>
+EActor_ChildStructType DsActor::GetChildStructType()
+{
+	const UScriptStruct* pBaseCtrlStruct = FDsActorCtrl_Base::StaticStruct();
+	const UScriptStruct* pBaseInfoStruct = FDsActorInfo_Base::StaticStruct();
+	const UScriptStruct* pChildStruct = ChildStruct::StaticStruct();
+	if (DsHelper_Struct::IsCastEnable(pBaseCtrlStruct, pChildStruct))
+		return EActor_ChildStructType::Ctrl;
+
+	if (DsHelper_Struct::IsCastEnable(pBaseInfoStruct, pChildStruct))
+		return EActor_ChildStructType::Info;
+
+	return EActor_ChildStructType::Max;
 }

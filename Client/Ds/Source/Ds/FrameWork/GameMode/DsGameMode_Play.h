@@ -11,7 +11,7 @@ class UDSUserWidget;
  * 
  */
 UCLASS()
-class DS_API ADsGameMode_Play : public AGameModeBase
+class ADsGameMode_Play : public AGameModeBase
 {
 	GENERATED_BODY()
 

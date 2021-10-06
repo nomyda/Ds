@@ -7,7 +7,7 @@
 ADsGameMode_Play::ADsGameMode_Play(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	//DefaultPawnClass = ADSPawn_CameraTarget::StaticClass();
+	DefaultPawnClass = nullptr;
 	PlayerControllerClass = ADsPlayerController_Play::StaticClass();
 }
 

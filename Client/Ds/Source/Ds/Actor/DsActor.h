@@ -1,34 +1,42 @@
 #pragma once
-#include "DsActorInfo_Base.h"
-#include "DsActorCtrl_Base.h"
+#include "DsActor_ChildStruct.h"
 #include "Helper/DsHelper_Struct.h"
 #include "Message/DsClassMsg_Log.h"
 
+
+
+struct FDsActorCtrl_Base;
 struct FDsActorSpawnParam;
 class DsActor
 {
 public:
 	DsActor(const int32 iGuid) : m_iGuid(iGuid) {}
 	void InitActor(const FDsActorSpawnParam& rParam);
+	void Shutdown();
+	void OnTick(float fDeltaSeconds);
 
-	template<class CtrlClass>
-	CtrlClass& Get_Or_AddCtrl();
+	template<class ChildStruct>
+	bool HasChild() const;
 
-	template<class CtrlClass>
-	const CtrlClass* GetCtrl();
+	template<class ChildStruct, class... ArgTypes>
+	ChildStruct& AddChild(ArgTypes&&... args);
+	void OnAddChild(const EActor_ChildStructType eType, FDsActor_ChildStruct* pChild);
 
-	template<class InfoClass>
-	InfoClass& Get_Or_AddInfo();
+	template<class ChildStruct>
+	ChildStruct& Get_Or_AddChild();
 
-	template<class InfoClass>
-	const InfoClass* GetInfo();
+	template<class ChildStruct>
+	const ChildStruct* GetChild();
+
+protected:
+	template<class ChildStruct>
+	static EActor_ChildStructType GetChildStructType();
 
 private:
 	int32 m_iGuid;
-	typedef TSharedPtr<FDsActorInfo_Base> SharedInfo;
-	typedef TSharedPtr<FDsActorCtrl_Base> SharedCtrl;
-	TSortedMap<const UScriptStruct*, SharedInfo> m_smapSharedInfo;
-	TSortedMap<const UScriptStruct*, SharedCtrl> m_smapSharedCtrl;
+	typedef TSharedPtr<FDsActor_ChildStruct> SharedChild;
+	TSortedMap<const UScriptStruct*, SharedChild> m_smapSharedChild;
+	TArray<FDsActorCtrl_Base*> m_arrCtrl;
 };
 
 

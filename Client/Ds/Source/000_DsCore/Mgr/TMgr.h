@@ -16,7 +16,7 @@ class TMgr : public IMgr, public DsSingleton_Static<MgrClass>
 public:
 	TMgr() : IMgr() 
 	{
-		m_hInitM = FDsClassMsg_InitGame::OnClassMsg().AddRaw(this, &TMgr<MgrClass>::OnMsg_InitM);
+		m_hInitM = FDsClassMsg_InitGame::GetDelegate().AddRaw(this, &TMgr<MgrClass>::OnMsg_InitM);
 	}
 	virtual ~TMgr() {}
 

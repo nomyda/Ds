@@ -16,6 +16,7 @@ public:
 
 protected:
 	void OnInit() override;
+	void OnTick(float fDeltaSeconds) override;
 	int32 NextGuid();
 
 	static void OnConsol_SpawnActor(const TArray<FString>& Args);

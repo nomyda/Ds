@@ -3,7 +3,6 @@
 
 enum class EMgr_Index : int16
 {
-	Log,
 	ClientVariable,
 	Actor,
 	Max,
