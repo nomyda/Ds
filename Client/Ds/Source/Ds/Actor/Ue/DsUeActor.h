@@ -21,4 +21,7 @@ protected:
 	void BeginPlay() override;
 	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	void Tick(float DeltaSeconds) override;
+
+	void InitUeActor(const FName& m_ActorTid) override {}
+	void ShutdownUeActor() override {}
 };

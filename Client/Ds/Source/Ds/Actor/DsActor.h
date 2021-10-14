@@ -26,7 +26,10 @@ public:
 	ChildStruct& Get_Or_AddChild();
 
 	template<class ChildStruct>
-	const ChildStruct* GetChild();
+	const ChildStruct* GetChild() const;
+
+	template<class ChildStruct>
+	ChildStruct* GetChild();
 
 protected:
 	template<class ChildStruct>

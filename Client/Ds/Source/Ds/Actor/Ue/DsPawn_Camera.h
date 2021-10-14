@@ -4,20 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "DsCamera_Play.generated.h"
+#include "DsPawn_Camera.generated.h"
 
 UCLASS()
-class ADsCamera_Play : public APawn
+class ADsPawn_Camera : public APawn
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this pawn's properties
-	ADsCamera_Play();
+	ADsPawn_Camera();
+	ADsPawn_Camera(const FObjectInitializer& ObjectInitializer);
 
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	void BeginPlay() override;
+	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	
 	// Called every frame

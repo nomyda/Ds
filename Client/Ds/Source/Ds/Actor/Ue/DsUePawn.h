@@ -21,4 +21,11 @@ protected:
 	void BeginPlay() override;
 	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	void Tick(float DeltaSeconds) override;
+
+	void InitUeActor(const FName& ActorTid) override;
+	void ShutdownUeActor() override {}
+
+public:
+	UPROPERTY(Category = Actor, EditAnywhere, DisplayName="ActorTid", meta = (ToolTip = "Actor Table Key", AllowPrivateAccess = "true")) 
+		FName m_ActorTid;
 };

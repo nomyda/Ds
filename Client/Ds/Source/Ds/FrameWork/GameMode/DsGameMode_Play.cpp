@@ -3,11 +3,12 @@
 
 #include "DsGameMode_Play.h"
 #include "FrameWork/Controller/DsController_Play.h"
+#include "Actor/Ue/DsPawn_Camera.h"
 
 ADsGameMode_Play::ADsGameMode_Play(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	DefaultPawnClass = nullptr;
+	DefaultPawnClass = ADsPawn_Camera::StaticClass();
 	PlayerControllerClass = ADsPlayerController_Play::StaticClass();
 }
 

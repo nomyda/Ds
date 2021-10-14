@@ -1,10 +1,11 @@
 #include "DsActor.h"
+#include "DsActorSpawnParam.h"
 #include "Info/DsActorInfo_Visible.h"
 #include "Ctrl/DsActorCtrl_Visible.h"
 
 void DsActor::InitActor(const FDsActorSpawnParam& rParam)
 {
-	FDsActorInfo_Visible& rInfo_Ue = AddChild<FDsActorInfo_Visible>();
+	FDsActorInfo_Visible& rInfo_Ue = AddChild<FDsActorInfo_Visible>(rParam.m_ActorTid, rParam.m_vPos, rParam.m_fAngle);
 	FDsActorCtrl_Visible& rCtrl_Visible = AddChild<FDsActorCtrl_Visible>();
 }
 

@@ -35,7 +35,7 @@ ChildStruct& DsActor::Get_Or_AddChild()
 }
 
 template<class ChildStruct>
-const ChildStruct* DsActor::GetChild()
+const ChildStruct* DsActor::GetChild() const
 {
 	if (HasChild<ChildStruct>())
 	{
@@ -45,6 +45,16 @@ const ChildStruct* DsActor::GetChild()
 	}
 
 	return nullptr;
+}
+
+template<class ChildStruct>
+ChildStruct* DsActor::GetChild()
+{
+	const ChildStruct* pChildStruct = static_cast<const DsActor*>(this)->GetChild<ChildStruct>();
+	if (nullptr == pChildStruct)
+		return nullptr;
+
+	return const_cast<ChildStruct*>(pChildStruct);
 }
 
 template<class ChildStruct>

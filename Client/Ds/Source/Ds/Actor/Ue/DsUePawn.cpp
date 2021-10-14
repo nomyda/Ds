@@ -20,6 +20,10 @@ ADsUePawn::~ADsUePawn()
 void ADsUePawn::BeginPlay()
 {
 	Super::BeginPlay();
+	if (m_ActorTid.IsNone())
+		return;
+
+	InitUeActor(m_ActorTid);
 }
 
 void ADsUePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -30,4 +34,8 @@ void ADsUePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void ADsUePawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+}
+
+void ADsUePawn::InitUeActor(const FName& ActorTid)
+{
 }

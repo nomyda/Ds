@@ -12,5 +12,7 @@ class IDsUeActorInterface
 {
 	GENERATED_BODY()
 
-public:
+public:	
+	virtual void InitUeActor(const FName& m_ActorTid) = 0;
+	virtual void ShutdownUeActor() = 0;
 };
