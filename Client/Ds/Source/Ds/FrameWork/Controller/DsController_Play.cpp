@@ -1,6 +1,7 @@
 #include "DsController_Play.h"
 #include "FrameWork/Camera/DsPlayerCameraManager.h"
 #include "Enum/DsEnum_Input.h"
+#include "Actor/Ue/DsPawn_Camera.h"
 
 
 
@@ -67,6 +68,11 @@ void ADsPlayerController_Play::SpawnPlayerCameraManager()
 void ADsPlayerController_Play::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+	ADsPawn_Camera* pPawn = GetPawn<ADsPawn_Camera>();
+	if(nullptr == pPawn)
+		return;
+
+	pPawn->Move(m_uiInputBit);
 }
 
 void ADsPlayerController_Play::Move_Forward_Pressed()

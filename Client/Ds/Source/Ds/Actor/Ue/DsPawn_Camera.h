@@ -16,10 +16,7 @@ public:
 	ADsPawn_Camera();
 	ADsPawn_Camera(const FObjectInitializer& ObjectInitializer);
 
-protected:
-	// Called when the game starts or when spawned
-	void BeginPlay() override;
-	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	void Move(const uint32 uiMoveBit);
 
 public:	
 	// Called every frame
@@ -28,4 +25,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	// Called when the game starts or when spawned
+	void BeginPlay() override;
+	void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+
+private:
+	void Constructor();
+
+private:
+	UPROPERTY(Category=Actor, VisibleAnywhere, DisplayName="Static Mesh", meta=(Tooltim="This static mesh is displayed", AllowPrivateAccess="true"))
+		UStaticMeshComponent* m_StaticMesh;
 };
