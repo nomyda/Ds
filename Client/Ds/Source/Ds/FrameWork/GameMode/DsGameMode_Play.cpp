@@ -14,6 +14,7 @@ ADsGameMode_Play::ADsGameMode_Play(const FObjectInitializer& ObjectInitializer)
 
 void ADsGameMode_Play::StartPlay()
 {
+	//Å×½ºÆ®
 	Super::StartPlay();
 }
 

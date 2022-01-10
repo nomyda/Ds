@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class DsEditorTarget : TargetRules
+public class DSEditorTarget : TargetRules
 {
-	public DsEditorTarget( TargetInfo Target) : base(Target)
+	public DSEditorTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "Ds" } );
+		ExtraModuleNames.AddRange( new string[] { "DSCore", "DSCoreFrameWork", "DSTable", "DSUI_Core", "DSUtil", "DSActor", "DS", "DSPuzzle" } );
 	}
 }
