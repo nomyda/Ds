@@ -125,10 +125,4 @@ void ADsPawn_Camera::Constructor()
 		RootComponent = m_StaticMesh;
 	else
 		m_StaticMesh->SetupAttachment(RootComponent);
-
-	UPawnMovementComponent* pMoveComponent = GetMovementComponent();
-	if(pMoveComponent)
-	{
-		pMoveComponent->MaxWalk
-	}
 }
